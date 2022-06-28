@@ -1,0 +1,14 @@
+#mainTable {
+  border-collapse: collapse;
+  td {
+    border-bottom: 1px solid #ddd;
+    padding-right: 1.5em;
+  }
+  tr:hover:not(.header-row) {
+    background-color: #ddd;
+    cursor: pointer;
+  }
+  th:nth-child(1) {
+    text-align: left;
+  }
+}
