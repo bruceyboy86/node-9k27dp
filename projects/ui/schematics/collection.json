@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "add-onpush-everywhere": {
+      "description": "Add OnPush to all components",
+      "factory": "../add-onpush-everywhere/index#addOnpushEverywhere",
+      "schema": "../add-onpush-everywhere/schema.json"
+    }
+  }
+}
