@@ -8,9 +8,6 @@ import { Observable } from 'rxjs';
 export class HttpService {
   constructor(private httpClient: HttpClient) {}
 
-  getList() {
-    return this.httpClient.get<any[]>('../assets/list.json');
-  }
   getListObservable(): Observable<any[]> {
     return this.httpClient.get<any[]>('../assets/list.json');
   }

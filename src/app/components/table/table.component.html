@@ -1,9 +1,16 @@
-<!-- {{ observableData | json }} -->
+<!-- {{ observableData.length | json }} -->
+{{ checkedInputsObject | json }}
 
 <table id="mainTable">
   <tr id="navRow" class="header-row">
     <th>
-      <input type="checkbox" [(ngModel)]="checked" id="item0" name="check-me" />
+      <input
+        type="checkbox"
+        [(ngModel)]="checkedAll"
+        (change)="changeAllChecks(checkedAll)"
+        id="item0"
+        name="check-me"
+      />
     </th>
     <th>Selected</th>
     <th>Download selected</th>
@@ -18,7 +25,8 @@
     <td>
       <input
         type="checkbox"
-        [checked]="checked"
+        [checked]="checkedAll"
+        (change)="checkValue($event)"
         [id]="'item' + (i + 1)"
         name="check-me"
       />
