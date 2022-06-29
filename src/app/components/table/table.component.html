@@ -1,4 +1,10 @@
-{{ fileList | json }}
+<!-- {{ $data | async | json }} -->
+
+<div class="list-item" *ngFor="let item of $data | async">
+  <span>{{ item.name }}</span
+  ><span>{{ item.device }}</span>
+</div>
+<!-- 
 <table id="mainTable">
   <tr id="navRow" class="header-row">
     <th><input type="checkbox" id="item0" name="check-me" /></th>
@@ -56,4 +62,4 @@
     <td>table data 04</td>
     <td>table data 05</td>
   </tr>
-</table>
+</table> -->
