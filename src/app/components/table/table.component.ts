@@ -15,6 +15,7 @@ export class TableComponent implements OnInit {
   $data = this.httpService.getList();
   objectKeys = Object.keys;
   observableData: any[] = [];
+  checked: boolean = false;
 
   ngOnInit(): void {
     this.httpService.getListObservable().subscribe((result) => {
