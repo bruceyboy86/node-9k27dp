@@ -13,5 +13,12 @@ export class TableComponent implements OnInit {
   constructor(private httpService: HttpService) {}
 
   $data = this.httpService.getList();
-  ngOnInit(): void {}
+  objectKeys = Object.keys;
+  observableData: any[] = [];
+
+  ngOnInit(): void {
+    this.httpService.getListObservable().subscribe((result) => {
+      this.observableData = result;
+    });
+  }
 }

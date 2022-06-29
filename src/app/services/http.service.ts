@@ -11,4 +11,7 @@ export class HttpService {
   getList() {
     return this.httpClient.get<any[]>('../assets/list.json');
   }
+  getListObservable(): Observable<any[]> {
+    return this.httpClient.get<any[]>('../assets/list.json');
+  }
 }
