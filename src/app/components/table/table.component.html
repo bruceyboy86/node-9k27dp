@@ -1,4 +1,4 @@
-{{ observableData | json }}
+<!-- {{ observableData | json }} -->
 
 <table id="mainTable">
   <tr id="navRow" class="header-row">
@@ -10,11 +10,7 @@
   </tr>
   <tr class="header-row">
     <th>&nbsp;</th>
-    <!-- <th *ngFor="let key of objectKeys(observableData)">{{ key.name }}</th> -->
-    <!-- <th>Name</th>
-    <th>Device</th>
-    <th>Path</th>
-    <th>Status</th> -->
+    <th *ngFor="let key of observableData[0] | keys">{{ key }}</th>
   </tr>
   <tr *ngFor="let item of observableData; index as i">
     <td><input type="checkbox" [id]="i" name="check-me" /></td>
