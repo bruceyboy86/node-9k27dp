@@ -1,13 +1,15 @@
 #mainTable {
   border-collapse: collapse;
   tr {
-    &:hover:not('.header-row') {
+    &:hover:not(.header-row) {
       background-color: #ddd;
       cursor: pointer;
     }
     td {
       border-bottom: 1px solid #ddd;
-      padding-right: 1.5em;
+      &:not(:nth-child(1)) {
+        padding: 0 1em;
+      }
     }
   }
   th:nth-child(1) {

@@ -4,7 +4,7 @@ import { HttpService } from 'src/app/services/http.service';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css'],
+  styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit {
   constructor(private httpService: HttpService) {}
