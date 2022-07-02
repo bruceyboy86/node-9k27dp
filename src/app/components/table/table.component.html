@@ -1,6 +1,11 @@
 <!-- {{ observableData | json }} -->
 {{ checkedInputsObject | json }}
 
+<p>
+  The select-all checkbox should be in an indeterminate state if some but not
+  all items are selected.
+</p>
+
 <table id="mainTable">
   <tr id="navRow" class="header-row">
     <th>
@@ -12,7 +17,9 @@
         name="check-me"
       />
     </th>
-    <th>{{ selectCount }} Selected</th>
+    <th>
+      {{ selectCount >= 1 ? 'Selected ' + selectCount : 'None Selected' }}
+    </th>
     <th>Download selected</th>
     <th>&nbsp;</th>
     <th>&nbsp;</th>
@@ -21,12 +28,16 @@
     <th>&nbsp;</th>
     <th *ngFor="let key of observableData[0] | keys">{{ key | titlecase }}</th>
   </tr>
-  <tr  *ngFor="let item of observableData; index as i">
+  <tr
+    (click)="changeCheckValueFor(checkedInputsObject[i], i)"
+    *ngFor="let item of observableData; index as i"
+    [class]="checkedInputsObject[i] ? item.status + ' selected' : item.status"
+  >
     <td>
       <input
         type="checkbox"
         [(ngModel)]="checkedInputsObject[i]"
-        (change)="checkValue($event)"
+        (change)="checkValue()"
         [id]="i"
         name="check-me"
       />
@@ -34,6 +45,8 @@
     <td>{{ item.name }}</td>
     <td>{{ item.device }}</td>
     <td>{{ item.path }}</td>
-    <td>{{ item.status | titlecase }}</td>
+    <td id="status">
+      {{ item.status | titlecase }}
+    </td>
   </tr>
 </table>

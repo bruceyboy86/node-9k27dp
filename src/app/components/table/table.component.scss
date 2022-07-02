@@ -11,6 +11,22 @@
         padding: 0 1em;
       }
     }
+    input[type='checkbox'] {
+      cursor: pointer;
+    }
+    &.available {
+      #status::before {
+        content: '';
+        height: 1em;
+        width: 1em;
+        background-color: lime;
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+        top: 2px;
+        margin-left: -1.2em;
+      }
+    }
   }
   th:nth-child(1) {
     text-align: left;

@@ -13,10 +13,9 @@ export class TableComponent implements OnInit {
   checkedInputsObject = {} as any;
   selectCount: number = 0;
 
-  /**@description this is triggered when a checkbox input has been changed
-   * it will ask if all items are checked and then check the selectAll button if true.
+  /**@description this will ask if all items are checked and then check the selectAll button if true.
    */
-  checkValue(val: any) {
+  public checkValue(): void {
     if (this.allAreTrue(Object.values(this.checkedInputsObject))) {
       this.checkedAll = true;
     } else {
@@ -30,22 +29,31 @@ export class TableComponent implements OnInit {
   public changeAllChecks(checkedAll: boolean) {
     return Object.keys(this.checkedInputsObject).forEach((key) => {
       this.checkedInputsObject[key] = checkedAll;
-      this.tallyCount(Object.values(this.checkedInputsObject));
+      this.tallyCount();
     });
   }
 
+  /**@description this will only change individual check values triggered by the user clicking the input's parent table row */
+  public changeCheckValueFor(element: any, index: number) {
+    this.checkedInputsObject[index] = !element;
+    this.checkValue();
+  }
+
   /**@description are all the list items checked */
-  private allAreTrue(arr: any[]) {
-    this.tallyCount(arr);
+  private allAreTrue(arr: any[]): boolean {
+    this.tallyCount();
     return arr.every((element: boolean) => element);
   }
 
   /**@description keep track of how many are checked and update prop for use in dom */
-  private tallyCount(arr: any) {
-    this.selectCount = arr.reduce((a: any, item: any) => a + item, 0);
+  private tallyCount() {
+    this.selectCount = Object.values<number>(this.checkedInputsObject).reduce(
+      (a: any, item: any) => a + item,
+      0
+    );
   }
 
-  /**@description create a map of all list items so the assigned ngModel can
+  /**@description Used on init: create a map of all list items so the assigned ngModel can
    * react to their checked status. This object is used to trigger the
    * select all checkbox at the top if all items have been checked
    */
