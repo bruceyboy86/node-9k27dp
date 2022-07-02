@@ -1,8 +1,11 @@
 #mainTable {
   border-collapse: collapse;
   tr {
+    &.selected {
+      background-color: aliceblue;
+    }
     &:hover:not(.header-row) {
-      background-color: #ddd;
+      background-color: rgb(199, 249, 255);
       cursor: pointer;
     }
     td {
