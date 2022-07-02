@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -6,69 +6,77 @@ import { HttpService } from 'src/app/services/http.service';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
   constructor(private httpService: HttpService) {}
 
   observableData: any[] = [];
   checkedAll: boolean = false;
-  checkedInputsObject = {} as any;
   selectCount: number = 0;
 
-  /**@description Used on init: create a map of all list items so the assigned ngModel can
-   * react to their checked status. This object is used to trigger the
-   * select all checkbox at the top if all items have been checked
+  /**@description After init: add new 'checked' prop to each item in object
    */
-  private createlistMap() {
-    this.observableData.map((item, i) => {
-      this.checkedInputsObject[i] = false;
+  private addCheckedPropToObject() {
+    this.observableData.map((i) => {
+      this.observableData[i].checked = false;
     });
   }
 
   /**@description this will only change individual check values triggered by the user clicking the input's parent table row */
-  public changeCheckValueFor(element: any, index: number) {
-    this.checkedInputsObject[index] = !element;
+  public changeMyCheckValue(element: any, index: number) {
+    this.observableData[index].checked = !element;
     this.checkValue();
   }
 
   /**@description this will ask if all items are checked and then check the selectAll button if true.
    */
   public checkValue(): void {
-    if (this.allAreTrue(Object.values(this.checkedInputsObject))) {
+    this.tallyCount();
+    if (
+      this.observableData.map((res) => res.checked).filter((res) => res == true)
+        .length == this.observableData.length
+    ) {
       this.checkedAll = true;
     } else {
       this.checkedAll = false;
     }
   }
 
-  /**@description are all the list items checked */
-  private allAreTrue(arr: any[]): boolean {
-    this.tallyCount();
-    return arr.every((element: boolean) => element);
-  }
-
   /**@description keep track of how many are checked and update prop for use in dom */
   private tallyCount() {
-    this.selectCount = Object.values<number>(this.checkedInputsObject).reduce(
-      (a: any, item: any) => a + item,
-      0
-    );
+    this.selectCount = this.observableData
+      .map((res) => res.checked)
+      .filter((res) => res == true).length;
   }
 
   /**@description triggered when user clicks select all checkbox.
    * loops through all inputs and changes their checked status, ngModel updates the dom
    */
   public changeAllChecks(checkedAll: boolean) {
-    return Object.keys(this.checkedInputsObject).forEach((key) => {
-      this.checkedInputsObject[key] = checkedAll;
-      this.tallyCount();
-    });
+    this.observableData.map((res) => (res.checked = checkedAll));
+    this.tallyCount();
+  }
+
+  /**@description add window alert of all downloadSelected devices and their respective paths */
+  public downloadSelected() {
+    let selectedFiles = this.observableData
+      .map((res) => res)
+      .filter((res) => res.checked == true);
+    let messageArray = [];
+    for (let entry of selectedFiles) {
+      messageArray.push(`${entry.device}: ${entry.path}`);
+    }
+    if (messageArray.length) window.alert([...messageArray]);
   }
 
   ngOnInit(): void {
     // subscribe to data when component initialises
     this.httpService.getListObservable().subscribe((result) => {
       this.observableData = result;
-      this.createlistMap();
     });
+  }
+
+  ngAfterViewInit(): void {
+    // add checked prop to object after template is rendered so the extra column does not get used
+    this.addCheckedPropToObject();
   }
 }
