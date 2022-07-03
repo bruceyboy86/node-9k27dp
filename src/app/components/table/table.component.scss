@@ -1,33 +1,105 @@
+$accent-colour: #c3e7e7;
+$hover-color: rgb(237, 248, 252);
 #mainTable {
   border-collapse: collapse;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  min-width: 52em;
+  border-radius: 9px;
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+  font-family: sans-serif;
   tr {
-    &.selected {
-      background-color: aliceblue;
-    }
     &:hover:not(.header-row) {
-      background-color: rgb(199, 249, 255);
+      background-color: $hover-color;
       cursor: pointer;
     }
+    &.header-row th:not(:nth-child(1)) {
+      text-align: left;
+    }
+    &:not(.header-row) {
+      background-color: #fbffff;
+    }
+    &.selected {
+      background-color: #f8fcff;
+    }
+    th,
     td {
-      border-bottom: 1px solid #ddd;
-      &:not(:nth-child(1)) {
-        padding: 0 1em;
-      }
+      padding: 0.6em 0.5em;
     }
-    input[type='checkbox'] {
-      cursor: pointer;
+    &.header-row {
+      color: $accent-colour;
     }
     &.available {
       #status::before {
         content: '';
         height: 1em;
         width: 1em;
-        background-color: lime;
+        background-color: $accent-colour;
         border-radius: 50%;
         display: inline-block;
         position: relative;
         top: 2px;
         margin-left: -1.2em;
+      }
+    }
+    &:not(:last-child) {
+      td {
+        border-bottom: 1px solid #ddd;
+      }
+    }
+    &#navRow {
+      th:nth-child(2) {
+        min-width: 7em;
+      }
+    }
+    button#downloadButton {
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      border: 0px;
+      background: white;
+      &:hover:enabled {
+        cursor: pointer;
+        background-color: $hover-color;
+      }
+      svg.download-icon {
+        width: 2em;
+      }
+    }
+    &#navRow {
+      th {
+        position: relative;
+      }
+    }
+    input {
+      &#checkAll:indeterminate:after {
+        content: '-';
+        text-align: center;
+        color: $accent-colour;
+        font-size: larger;
+        position: absolute;
+        font-weight: 900;
+        bottom: 0.8em;
+        right: 17px;
+      }
+      &[type='checkbox'] {
+        appearance: none;
+        &:before {
+          content: '';
+          height: 1em;
+          width: 1em;
+          border: 2px solid $accent-colour;
+          border-radius: 50%;
+          display: inline-block;
+        }
+        &:checked:before {
+          content: '';
+          height: 1em;
+          width: 1em;
+          background-color: $accent-colour;
+          border-radius: 50%;
+          display: inline-block;
+        }
       }
     }
   }

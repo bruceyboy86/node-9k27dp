@@ -1,15 +1,11 @@
 <!-- {{ observableData | json }} -->
 
-
-<p>Add interfaces</p>
-<p>Add styling</p>
-<p>Add tests</p>
-
 <table id="mainTable">
   <tr id="navRow" class="header-row">
     <th>
       <input
         type="checkbox"
+        [indeterminate]="false"
         [(ngModel)]="checkedAll"
         (change)="changeAllChecks(checkedAll)"
         id="checkAll"
@@ -20,8 +16,26 @@
       {{ selectCount >= 1 ? 'Selected ' + selectCount : 'None Selected' }}
     </th>
     <th>
-      <button [disabled]="!selectCount" (click)="downloadSelected()">
-        Download selected
+      <button
+        id="downloadButton"
+        [disabled]="!selectCount"
+        (click)="downloadSelected()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          aria-hidden="true"
+          role="img"
+          class="download-icon"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11Zm-6 4q-.825 0-1.412-.587Q4 18.825 4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413Q18.825 20 18 20Z"
+          ></path>
+        </svg>
+        <span>Download selected</span>
       </button>
     </th>
     <th>&nbsp;</th>
