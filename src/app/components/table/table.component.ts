@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { DownloadService } from 'src/app/services/download.service';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, AfterViewInit {
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService , private downloadService:DownloadService) {}
 
   observableData: any[] = [];
   checkedAll: boolean = false;
@@ -64,6 +65,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     let messageArray = [];
     for (let entry of selectedFiles) {
       messageArray.push(`${entry.device}: ${entry.path}`);
+      this.download(entry.path, entry.name);
     }
     if (messageArray.length) window.alert([...messageArray]);
   }
@@ -78,5 +80,17 @@ export class TableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // add checked prop to object after template is rendered so the extra column does not get used
     this.addCheckedPropToObject();
+  }
+
+  /**@description create a blob and create a temp anchor to download file */
+  public download(path:string, filename:string): void {
+    this.downloadService.download(`assets\\${path}`).subscribe((blob) => {
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(objectUrl);
+    })
   }
 }
