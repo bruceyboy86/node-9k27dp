@@ -1,14 +1,6 @@
 <!-- {{ observableData | json }} -->
 
-<p>
-  The select-all checkbox should be in an indeterminate state if some but not
-  all items are selected.
-</p>
-<p>
-  Only those that have a status of "available" are currently able to be
-  downloaded. Your implementation should manage this.
-</p>
-<p>download is working but need to filter files</p>
+
 <p>Add interfaces</p>
 <p>Add styling</p>
 <p>Add tests</p>
@@ -20,7 +12,7 @@
         type="checkbox"
         [(ngModel)]="checkedAll"
         (change)="changeAllChecks(checkedAll)"
-        id="item0"
+        id="checkAll"
         name="check-me"
       />
     </th>
