@@ -16,7 +16,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   observableData: any[] = [];
   checkedAll: boolean = false;
   selectCount: number = 0;
-  checkAllBox:any 
+  checkAllBox: any;
 
   /**@description After init: add new 'checked' prop to each item in object
    */
@@ -43,8 +43,8 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.checkedAll = false;
       this.checkAllBox.indeterminate = false;
     } else if (
-        this.observableData.map((res) => res.checked).filter((res) => res == true)
-          .length == this.observableData.length
+      this.observableData.map((res) => res.checked).filter((res) => res == true)
+        .length == this.observableData.length
     ) {
       this.checkedAll = true;
       this.checkAllBox.indeterminate = false;
@@ -117,6 +117,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // add checked prop to object after template is rendered so the extra column does not get used in html table
     this.addCheckedPropToObject();
-    this.checkAllBox = document.querySelector("#checkAll")
+    this.checkAllBox = document.querySelector('#checkAll');
   }
 }
