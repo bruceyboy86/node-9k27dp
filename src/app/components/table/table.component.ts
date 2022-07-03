@@ -8,7 +8,10 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, AfterViewInit {
-  constructor(private httpService: HttpService , private downloadService:DownloadService) {}
+  constructor(
+    private httpService: HttpService,
+    private downloadService: DownloadService
+  ) {}
 
   observableData: any[] = [];
   checkedAll: boolean = false;
@@ -57,17 +60,42 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.tallyCount();
   }
 
-  /**@description add window alert of all downloadSelected devices and their respective paths */
+  /**@description add window alert of all downloadSelected devices and their respective paths.
+   * If the file is not available, the alert will say so and browser will only download available files.
+   */
   public downloadSelected() {
     let selectedFiles = this.observableData
       .map((res) => res)
       .filter((res) => res.checked == true);
+    let selectedFilesAvailable = this.observableData
+      .map((res) => res)
+      .filter((res) => res.checked == true && res.status == 'available');
     let messageArray = [];
     for (let entry of selectedFiles) {
-      messageArray.push(`${entry.device}: ${entry.path}`);
+      messageArray.push(
+        `${entry.device}: ${
+          entry.status == 'available'
+            ? entry.path
+            : entry.path + '-not available'
+        }`
+      );
+    }
+    for (let entry of selectedFilesAvailable) {
       this.download(entry.path, entry.name);
     }
     if (messageArray.length) window.alert([...messageArray]);
+  }
+
+  /**@description create blob and a temporary anchor to download file(s) */
+  public download(path: string, filename: string): void {
+    this.downloadService.download(`assets\\${path}`).subscribe((blob) => {
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(objectUrl);
+    });
   }
 
   ngOnInit(): void {
@@ -78,19 +106,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // add checked prop to object after template is rendered so the extra column does not get used
+    // add checked prop to object after template is rendered so the extra column does not get used in html table
     this.addCheckedPropToObject();
-  }
-
-  /**@description create a blob and create a temp anchor to download file */
-  public download(path:string, filename:string): void {
-    this.downloadService.download(`assets\\${path}`).subscribe((blob) => {
-      const a = document.createElement('a');
-      const objectUrl = URL.createObjectURL(blob);
-      a.href = objectUrl;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(objectUrl);
-    })
   }
 }
